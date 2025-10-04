@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribe - Make Your Day</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/lucide-static/dist/lucide.min.js"></script>
+</head>
+<body class="bg-slate-900 text-white">
+    <div class="background-container"></div>
+    
+    <header id="main-header" class="absolute top-0 left-0 right-0 p-4 z-20"></header>
+    <template id="header-template">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="logo.png" alt="Logo" class="h-10 w-10 md:h-12 md:w-12 object-contain">
+                <span class="text-2xl font-bold tracking-wider main-gradient-text">MakeYourDay</span>
+            </a>
+            <div class="flex items-center gap-2 md:gap-4">
+                <div id="auth-buttons" class="hidden items-center gap-2">
+                    <a href="auth.html?mode=login" class="px-4 py-2 text-sm font-medium hover:text-pink-400 transition-colors" data-key="loginBtn">Войти</a>
+                    <a href="auth.html?mode=register" class="shine-button bg-pink-600 text-white font-bold py-2 px-5 rounded-full text-sm transition-all duration-300 hover:bg-pink-500 hover:shadow-lg hover:shadow-pink-600/50" data-key="registerBtn">Регистрация</a>
+                </div>
+                <div id="user-profile" class="hidden items-center gap-3 glass-card-footer p-2 rounded-lg">
+                    <a href="account.html" class="flex items-center gap-2 text-right p-2 rounded-md hover:bg-slate-700/50 transition-colors">
+                        <div>
+                            <span id="profile-username" class="font-bold text-white block text-sm">Username</span>
+                            <span id="profile-plan" class="text-xs uppercase font-bold bg-clip-text text-transparent">Free Plan</span>
+                        </div>
+                         <i data-lucide="user-circle-2" class="w-6 h-6 text-slate-300"></i>
+                    </a>
+                    <button id="logout-btn" title="Выйти" class="p-2 rounded-md hover:bg-slate-700/50 transition-colors">
+                        <i data-lucide="log-out" class="w-5 h-5 text-slate-400 hover:text-white transition-colors"></i>
+                    </button>
+                </div>
+                <div id="theme-switcher-container" class="relative hidden">
+                     <button id="theme-switcher-btn" class="glass-card-footer p-2 rounded-lg hover:bg-slate-700/80 transition-colors" title="Сменить тему">
+                        <i data-lucide="palette" class="w-5 h-5"></i>
+                     </button>
+                </div>
+                <div id="lang-selector" class="relative">
+                    <button id="lang-button" class="flex items-center gap-2 glass-card-footer px-3 py-2 rounded-lg hover:bg-slate-700/80 transition-colors">
+                        <i data-lucide="globe" class="w-5 h-5"></i>
+                        <span id="current-lang-text" class="text-sm">RU</span>
+                        <i data-lucide="chevron-down" id="lang-chevron" class="w-4 h-4 transition-transform duration-300"></i>
+                    </button>
+                    <div id="lang-dropdown" class="absolute top-full right-0 mt-2 w-32 glass-card-footer rounded-lg overflow-hidden hidden transition-all duration-300 transform origin-top-right scale-95 opacity-0 z-30">
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-white hover:bg-slate-700/80" data-lang="ru">Русский</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-white hover:bg-slate-700/80" data-lang="en">English</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-white hover:bg-slate-700/80" data-lang="es">Español</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-white hover:bg-slate-700/80" data-lang="fr">Français</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <div class="relative min-h-screen flex flex-col items-center justify-center p-4 md:p-8 z-10 pt-28">
+        <header class="text-center mb-10 animate-fade-in-down">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tighter text-transparent bg-clip-text main-gradient-text" data-key="subHeaderTitle">
+                Choose Your Plan
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 mt-2" data-key="subHeaderSubtitle">Unlock the full power of daily inspiration.</p>
+        </header>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
+            <div id="plan-free" class="glass-card p-8 flex flex-col animate-fade-in-up" style="animation-delay: 0.2s;">
+                <h2 class="text-2xl font-bold text-cyan-400" data-key="planFreeTitle">Basic</h2>
+                <p class="text-4xl font-black my-4" data-key="planFreePrice">Free</p>
+                <p class="text-slate-400 mb-6" data-key="planFreeDesc">Start your journey with the essentials.</p>
+                <ul class="space-y-3 text-slate-300 flex-grow">
+                    <li class="flex items-center"><span class="text-cyan-400 mr-2">✔</span><span data-key="planFreeFeat1">3 random quotes per day</span></li>
+                    <li class="flex items-center"><span class="text-cyan-400 mr-2">✔</span><span data-key="planFreeFeat2">Standard categories</span></li>
+                    <li class="flex items-center"><span class="text-cyan-400 mr-2">✔</span><span data-key="planFreeFeat3">Text-only quotes</span></li>
+                </ul>
+                <button id="btn-free" onclick="handleSubscription('free')" class="shine-button mt-8 w-full bg-cyan-600 text-white font-bold py-3 rounded-lg" data-key="subscribeBtn">Subscribe</button>
+            </div>
+            <div id="plan-premium" class="glass-card p-8 flex flex-col border-2 border-transparent animate-fade-in-up" style="animation-delay: 0.4s;">
+                <h2 class="text-2xl font-bold text-purple-500" data-key="planPremiumTitle">Premium</h2>
+                <p class="text-4xl font-black my-4">$5<span class="text-lg text-slate-400">/mo</span></p>
+                <p class="text-slate-400 mb-6" data-key="planPremiumDesc">For those who want more motivation.</p>
+                <ul class="space-y-3 text-slate-300 flex-grow">
+                     <li class="flex items-center"><span class="text-purple-500 mr-2">✔</span><span data-key="planPremiumFeat1">Up to 20 quotes per day</span></li>
+                    <li class="flex items-center"><span class="text-purple-500 mr-2">✔</span><span data-key="planPremiumFeat2">5+ exclusive categories</span></li>
+                    <li class="flex items-center"><span class="text-purple-500 mr-2">✔</span><span data-key="planPremiumFeat3">Beautiful image quotes</span></li>
+                    <li class="flex items-center"><span class="text-purple-500 mr-2">✔</span><span data-key="planPremiumFeat4">Downloadable images</span></li>
+                    <li class="flex items-center"><span class="text-purple-500 mr-2">✔</span><span data-key="planPremiumFeat5">Save favorite quotes</span></li>
+                </ul>
+                <button id="btn-premium" onclick="handleSubscription('premium')" class="shine-button mt-8 w-full bg-purple-600 text-white font-bold py-3 rounded-lg" data-key="subscribeBtn">Subscribe</button>
+            </div>
+            <div id="plan-vip" class="glass-card p-8 flex flex-col border-2 border-transparent animate-fade-in-up" style="animation-delay: 0.6s;">
+                <h2 class="text-2xl font-bold text-amber-400" data-key="planVipTitle">VIP</h2>
+                <p class="text-4xl font-black my-4">$10<span class="text-lg text-slate-400">/mo</span></p>
+                <p class="text-slate-400 mb-6" data-key="planVipDesc">The ultimate personalized experience.</p>
+                <ul class="space-y-3 text-slate-300 flex-grow">
+                    <li class="flex items-center"><span class="text-amber-400 mr-2">✔</span><span data-key="planVipFeat1">Everything in Premium</span></li>
+                    <li class="flex items-center"><span class="text-amber-400 mr-2">✔</span><span data-key="planVipFeat2">AI-powered personalized quotes</span></li>
+                    <li class="flex items-center"><span class="text-amber-400 mr-2">✔</span><span data-key="planVipFeat3">Create your own collections</span></li>
+                    <li class="flex items-center"><span class="text-amber-400 mr-2">✔</span><span data-key="planVipFeat4">Exclusive themes</span></li>
+                </ul>
+                <button id="btn-vip" onclick="handleSubscription('vip')" class="shine-button mt-8 w-full bg-amber-500 text-slate-900 font-bold py-3 rounded-lg" data-key="subscribeBtn">Subscribe</button>
+            </div>
+        </div>
+        <div class="mt-12 text-center">
+            <a href="index.html" class="text-slate-400 hover:text-white transition-colors" data-key="backToQuotes">&larr; Back to quotes</a>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!currentUser) {
+                window.location.href = 'auth.html?mode=login';
+                return;
+            }
+            
+            // Apply theme from user settings
+            if (currentUser.theme === 'cyberpunk') {
+                document.body.classList.add('theme-cyberpunk');
+            }
+
+            const plans = ['free', 'premium', 'vip'];
+            plans.forEach(plan => {
+                const card = document.getElementById(`plan-${plan}`);
+                const button = document.getElementById(`btn-${plan}`);
+                if (plan === currentUser.plan) {
+                    card.classList.add('plan-highlight-border', 'scale-105', 'shadow-2xl');
+                    button.textContent = 'Your Current Plan';
+                    button.disabled = true;
+                    button.classList.add('cursor-not-allowed', 'bg-slate-700', 'text-slate-400');
+                    button.classList.remove('shine-button');
+                }
+            });
+            if (window.setLanguage) {
+                setLanguage(currentUser.lang || 'ru');
+            }
+        });
+
+        function handleSubscription(newPlan) {
+            if (!currentUser) return;
+            
+            alert(`You've selected the ${newPlan} plan!`);
+            
+            const usersDB = JSON.parse(localStorage.getItem('makeYourDayUsers'));
+            usersDB[currentUser.username].plan = newPlan;
+            
+            usersDB[currentUser.username].limitReachedTimestamp = null;
+            localStorage.removeItem(`quoteUsage_${currentUser.username}`);
+            
+            localStorage.setItem('makeYourDayUsers', JSON.stringify(usersDB));
+            window.location.reload(); 
+        }
+    </script>
+</body>
+</html>

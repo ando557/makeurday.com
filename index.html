@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="title">Make Your Day - Motivational Quotes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="rating.css">
+    <script src="https://cdn.jsdelivr.net/npm/lucide-static/dist/lucide.min.js"></script>
+</head>
+<body class="bg-slate-900 text-white overflow-x-hidden">
+    <div class="background-container"></div>
+    <canvas id="quote-canvas" class="hidden"></canvas>
+
+    <header id="main-header" class="absolute top-0 left-0 right-0 p-4 z-20"></header>
+    
+    <template id="header-template">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="./images/makeurdaylogo.png" alt="Logo" class="h-10 w-10 md:h-12 md:w-12 object-contain">
+                <span class="text-2xl font-bold tracking-wider main-gradient-text">MakeYourDay</span>
+            </a>
+            <div class="flex items-center gap-2 md:gap-4">
+                <div id="auth-buttons" class="hidden items-center gap-2">
+                    <a href="auth.html?mode=login" class="px-4 py-2 text-sm font-medium hover:text-pink-400 transition-colors" data-key="loginBtn">Войти</a>
+                    <a href="auth.html?mode=register" class="shine-button bg-pink-600 text-white font-bold py-2 px-5 rounded-full text-sm transition-all duration-300 hover:bg-pink-500 hover:shadow-lg hover:shadow-pink-600/50" data-key="registerBtn">Регистрация</a>
+                </div>
+                <div id="user-profile" class="hidden items-center gap-3 glass-card-footer p-2 rounded-lg">
+                    <a href="account.html" class="flex items-center gap-2 text-right p-2 rounded-md hover:bg-slate-700/50 transition-colors">
+                        <div>
+                            <span id="profile-username" class="font-bold text-white block text-sm">Username</span>
+                            <span id="profile-plan" class="text-xs uppercase font-bold bg-clip-text text-transparent">Free Plan</span>
+                        </div>
+                         <i data-lucide="user-circle-2" class="w-6 h-6 text-slate-300"></i>
+                    </a>
+                    <button id="logout-btn" title="Выйти" class="p-2 rounded-md hover:bg-slate-700/50 transition-colors">
+                        <i data-lucide="log-out" class="w-5 h-5 text-slate-400 hover:text-white transition-colors"></i>
+                    </button>
+                </div>
+                <div id="theme-switcher-container" class="relative hidden">
+                     <button id="theme-switcher-btn" class="glass-card-footer p-2 rounded-lg hover:bg-slate-700/80 transition-colors" title="Сменить тему">
+                        <i data-lucide="palette" class="w-5 h-5"></i>
+                     </button>
+                </div>
+                <div id="lang-selector" class="relative">
+                    <button id="lang-button" class="flex items-center gap-2 glass-card-footer px-3 py-2 rounded-lg hover:bg-slate-700/80 transition-colors">
+                        <i data-lucide="globe" class="w-5 h-5"></i>
+                        <span id="current-lang-text" class="text-sm">RU</span>
+                        <i data-lucide="chevron-down" id="lang-chevron" class="w-4 h-4 transition-transform duration-300"></i>
+                    </button>
+                    <div id="lang-dropdown" class="absolute top-full right-0 mt-2 w-32 glass-card-footer rounded-lg overflow-hidden hidden transition-all duration-300 transform origin-top-right scale-95 opacity-0 z-30">
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-white hover:bg-slate-700/80" data-lang="ru">Русский</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-white hover:bg-slate-700/80" data-lang="en">English</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-white hover:bg-slate-700/80" data-lang="es">Español</a>
+                        <a href="#" class="lang-option block px-4 py-2 text-sm text-white hover:bg-slate-700/80" data-lang="fr">Français</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <div class="relative min-h-screen flex flex-col items-center justify-center p-4 md:p-8 z-10">
+        <div class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center flex-grow pt-24 md:pt-28">
+            <header class="text-center mb-8 animate-fade-in-down">
+                <h1 class="main-title text-5xl md:text-7xl font-black tracking-tighter text-transparent bg-clip-text main-gradient-text">
+                    Make Your Day
+                </h1>
+                <p class="text-lg md:text-xl text-slate-400 mt-2" data-key="subtitle">Your daily dose of inspiration</p>
+            </header>
+
+            <main class="w-full flex-grow flex flex-col items-center justify-center">
+                <div id="quote-card-wrapper" class="w-full max-w-2xl animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <div id="quote-card" class="glass-card text-center transition-all duration-500 ease-in-out" style="perspective: 1500px;">
+                        
+                        <div id="quote-actions-container" class="quote-actions hidden">
+                            <button id="download-quote-btn" class="quote-action-btn hidden" title="Скачать как картинку">
+                                <i data-lucide="download" class="w-5 h-5 pointer-events-none"></i>
+                            </button>
+                            <button id="favorite-quote-btn" class="quote-action-btn hidden" title="Добавить в избранное">
+                                <i data-lucide="heart" class="w-5 h-5 pointer-events-none"></i>
+                            </button>
+                        </div>
+
+                        <div id="quote-card-inner" class="transition-transform duration-500" style="transform-style: preserve-3d;">
+                            <blockquote id="quote-container" class="relative z-10">
+                                <p id="quote-text" class="text-xl md:text-3xl font-medium mb-4 text-slate-100" data-key="initialQuote">
+                                    Нажмите кнопку ниже, чтобы получить свою первую цитату!
+                                </p>
+                                <footer id="quote-author" class="text-md md:text-lg font-bold" data-key="initialAuthor" style="color: var(--author-color);">
+                                    — Автор
+                                </footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <button id="new-quote-btn" class="shine-button bg-gradient-to-r from-amber-500 to-pink-600 text-white font-bold py-4 px-10 rounded-full shadow-lg shadow-pink-500/30 transform transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-2xl hover:shadow-pink-500/50 active:scale-95 focus:outline-none focus:ring-4 focus:ring-pink-300" data-key="getQuoteBtn">
+                        Get Your Quote
+                    </button>
+                    <p id="login-prompt" class="mt-4 text-center text-slate-400 hidden" data-key="loginPrompt">
+                        <a href="auth.html?mode=login" class="underline hover:text-white">Войдите</a>, чтобы получать цитаты.
+                    </p>
+                </div>
+                <div id="limit-message" class="mt-4 text-center text-amber-400 font-medium hidden">
+                    <p data-key="limitReached">Вы достигли дневного лимита. Возвращайтесь через:</p>
+                    <div id="countdown-timer" class="text-2xl font-bold text-white mt-2"></div>
+                    <a href="subscribe.html" class="underline hover:text-amber-300" data-key="getMoreQuotes">Получить больше цитат</a>
+                </div>
+            </main>
+            
+            <footer class="w-full max-w-2xl text-center py-8 animate-fade-in-up" style="animation-delay: 0.6s;">
+                <div class="glass-card-footer p-6">
+                    <h2 class="text-xl font-bold mb-2" data-key="footerTitle">Want more inspiration?</h2>
+                    <p class="text-slate-400 mb-4" data-key="footerSubtitle">Unlock exclusive categories, image quotes, and more with a subscription.</p>
+                    <a href="subscribe.html" class="shine-button bg-purple-600 text-white font-bold py-2 px-6 rounded-full shadow-md shadow-purple-600/30 transition-all duration-300 hover:scale-105 hover:bg-purple-500 hover:shadow-lg hover:shadow-purple-600/50 focus:outline-none focus:ring-4 focus:ring-purple-400" data-key="viewPlansBtn">
+                        View Plans
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+    <div id="rating-modal" class="rating-modal-hidden">
+        <div class="rating-modal-content glass-card">
+            <button id="close-modal-btn" class="close-modal-btn">&times;</button>
+            <h2 class="text-2xl font-bold text-center mb-4">Оцените наш проект</h2>
+            <p class="text-slate-400 text-center mb-6">Ваш отзыв поможет нам стать лучше.</p>
+            <form id="rating-form">
+                <div class="star-rating mb-6">
+                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 звезд"></label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 звезды"></label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 звезды"></label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 звезды"></label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 звезда"></label>
+                </div>
+                <input type="hidden" name="user" id="rating-user">
+                <div id="rating-message" class="text-center min-h-[24px] mb-4"></div>
+                <button type="submit" class="shine-button w-full bg-purple-600 text-white font-bold py-3 rounded-lg">Отправить Оценку</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="rating.js"></script>
+</body>
+</html>
